@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8f1e8">
+<title>Nuestra boda</title>
+<style>
+:root{--cream:#fbf6ef;--paper:#fffdf9;--gold:#b89a62;--ink:#59483c;--rose:#d9b8ad}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,'Times New Roman',serif}
+button,a{font:inherit}
+.cover{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at top,#fffdf9,#f3e6d8)}
+.envelope-wrap{width:min(390px,94vw);text-align:center}
+.kicker{letter-spacing:.22em;text-transform:uppercase;font:11px Arial,sans-serif;color:#9b8057}
+.envelope{position:relative;width:100%;height:245px;margin:28px auto 18px;cursor:pointer;perspective:900px;border:0;background:transparent;padding:0}
+.env-back{position:absolute;inset:20px 0 0;background:#ead9c4;border-radius:4px;box-shadow:0 14px 28px #6b50301c}
+.env-front{position:absolute;inset:20px 0 0;background:#f6eadb;clip-path:polygon(0 0,50% 60%,100% 0,100% 100%,0 100%);z-index:3}
+.env-left{position:absolute;inset:20px 0 0;background:#f0dfcc;clip-path:polygon(0 0,50% 60%,0 100%);z-index:2}
+.env-right{position:absolute;inset:20px 0 0;background:#e6d2bc;clip-path:polygon(100% 0,50% 60%,100% 100%);z-index:2}
+.flap{position:absolute;inset:20px 0 auto;height:150px;background:#e9d6bf;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .8s ease;z-index:4;filter:drop-shadow(0 3px 2px #7a60401a)}
+.seal{position:absolute;z-index:5;left:50%;top:112px;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;background:var(--gold);color:white;display:grid;place-items:center;font-size:18px;box-shadow:0 2px 5px #6d4f2c3d}
+.letter{position:absolute;z-index:1;left:8%;right:8%;top:40px;height:170px;background:var(--paper);padding:24px 10px;transition:transform .8s ease;box-shadow:0 2px 9px #6b503018}
+.letter strong{display:block;font-size:26px;font-weight:normal;margin:12px 0}
+.envelope.open .flap{transform:rotateX(180deg);z-index:0}
+.envelope.open .letter{transform:translateY(-90px);z-index:5}
+.envelope.open .seal{opacity:0;transition:opacity .25s}
+.hint{font:12px Arial,sans-serif;color:#8b7767}
+.invite{display:none;max-width:760px;margin:0 auto;padding:28px 18px 60px;text-align:center}
+.invite.show{display:block;animation:fade .8s ease}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.card{background:var(--paper);border:1px solid #e6d6c3;padding:clamp(24px,6vw,56px);margin:18px auto;box-shadow:0 10px 35px #6b50300b}
+h1{font-size:clamp(36px,8vw,64px);font-weight:normal;line-height:1.05;margin:18px 0}
+h2{font-size:27px;font-weight:normal;margin:8px 0 18px}
+p{line-height:1.7}
+.divider{color:var(--gold);letter-spacing:.5em;margin:22px 0}
+.date{font-size:22px}
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:20px}
+.photo{min-height:190px;background:#f0e4d6;display:flex;align-items:center;justify-content:center;padding:12px;color:#887664;font:13px Arial,sans-serif;overflow:hidden}
+.photo img{width:100%;height:100%;min-height:190px;object-fit:cover;display:block}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:22px 0}
+.btn{display:inline-block;border:1px solid var(--gold);background:var(--gold);color:white;text-decoration:none;padding:13px 18px;border-radius:2px;font:12px Arial,sans-serif;letter-spacing:.06em}
+.btn.secondary{background:transparent;color:var(--ink)}
+.note{font:12px Arial,sans-serif;color:#8b7767}
+footer{padding:24px;font-size:14px}
+@media(min-width:600px){.gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.photo,.photo img{min-height:230px}}
+</style>
+</head>
+<body>
+<section class="cover" id="cover">
+  <div class="envelope-wrap">
+    <div class="kicker">Una invitación especial</div>
+    <button class="envelope" id="envelope" aria-label="Abrir invitación">
+      <div class="env-back"></div>
+      <div class="letter"><span class="kicker">¡Nos casamos!</span><strong>Nombres de los novios</strong><span class="kicker">Toca para descubrir</span></div>
+      <div class="env-left"></div><div class="env-right"></div><div class="env-front"></div>
+      <div class="flap"></div><div class="seal">♥</div>
+    </button>
+    <div class="hint">Toca el sobre para abrir tu invitación</div>
+  </div>
+</section>
+
+<main class="invite" id="invite">
+  <div class="card">
+    <div class="kicker">Con la alegría de nuestros corazones</div>
+    <h1>Nombres<br><span style="color:var(--gold)">&</span><br>Nombres</h1>
+    <p>Queremos compartir contigo uno de los días más especiales de nuestras vidas.</p>
+    <div class="divider">✦ ✦ ✦</div>
+    <div class="date">20 de noviembre · 5:00 p. m.</div>
+    <p><strong>Lugar de celebración</strong><br>Escribe aquí la dirección del evento</p>
+    <div class="actions">
+      <a class="btn" id="mapsBtn" href="https://maps.google.com/" target="_blank" rel="noopener">📍 CÓMO LLEGAR</a>
+      <button class="btn secondary" id="musicBtn" type="button">♫ ACTIVAR MÚSICA</button>
+      <a class="btn secondary" id="rsvpBtn" href="#" target="_blank" rel="noopener">CONFIRMAR ASISTENCIA</a>
+    </div>
+    <p class="note">Vestimenta formal · Por favor, evitar el color blanco</p>
+  </div>
+
+  <div class="card">
+    <h2>Nuestra historia en fotos</h2>
+    <p>Algunos recuerdos que queremos compartir contigo.</p>
+    <div class="gallery">
+      <div class="photo">Reemplaza esta imagen por una foto de ustedes</div>
+      <div class="photo">Reemplaza esta imagen por una foto de ustedes</div>
+      <div class="photo">Reemplaza esta imagen por una foto de ustedes</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="kicker">Será un día inolvidable</div>
+    <h2>¡Te esperamos!</h2>
+    <p>Gracias por acompañarnos y ser parte de este momento tan importante.</p>
+  </div>
+  <footer>Hecho con amor ♥</footer>
+</main>
+
+<audio id="song" preload="none" loop>
+  <!-- Para añadir música, coloca un archivo MP3 llamado song.mp3 junto a este HTML
+       y cambia la línea siguiente por: <source src="song.mp3" type="audio/mpeg"> -->
+</audio>
+<script>
+const envelope=document.getElementById('envelope');
+const cover=document.getElementById('cover');
+const invite=document.getElementById('invite');
+const musicBtn=document.getElementById('musicBtn');
+const song=document.getElementById('song');
+let opened=false;
+envelope.addEventListener('click',()=>{
+  if(opened)return;
+  opened=true;
+  envelope.classList.add('open');
+  setTimeout(()=>{cover.style.display='none';invite.classList.add('show');window.scrollTo({top:0,behavior:'smooth'});},850);
+});
+musicBtn.addEventListener('click',async()=>{
+  if(!song.querySelector('source')){
+    alert('Para activar la música, añade tu archivo MP3 como se indica en las instrucciones del archivo.');
+    return;
+  }
+  if(song.paused){try{await song.play();musicBtn.textContent='♫ PAUSAR MÚSICA';}catch(e){alert('No se pudo reproducir el audio. Prueba otra vez.');}}
+  else{song.pause();musicBtn.textContent='♫ ACTIVAR MÚSICA';}
+});
+/* Personaliza estos enlaces antes de publicar */
+document.getElementById('mapsBtn').href='PEGA_AQUI_EL_ENLACE_DE_GOOGLE_MAPS';
+document.getElementById('rsvpBtn').href='PEGA_AQUI_EL_ENLACE_DE_CONFIRMACION';
+</script>
+</body>
+</html>
